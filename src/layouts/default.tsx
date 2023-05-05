@@ -28,8 +28,8 @@ export const Default: FC<PropsWithChildren<object>> = () => {
   const [requests, dispatch] = useReducer(requestReducer, getRequests());
 
   const links = [
-    { to: "/listings", text: "Show Listings", icon: <Listings /> },
-    { to: "/", text: "Create Request", icon: <Create /> },
+    { to: "/", text: "Show Listings", icon: <Listings /> },
+    { to: "/create", text: "Create Request", icon: <Create /> },
     { to: "/profile", text: "Show my Profile", icon: <Profile /> },
   ];
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);

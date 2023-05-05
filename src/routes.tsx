@@ -19,9 +19,10 @@ export const routes = [
   {
     path: "/",
     element: <Default />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        index: "/create",
+        path: "/create",
         element: <Create />,
       },
       {
