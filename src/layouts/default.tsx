@@ -14,9 +14,9 @@ import Listings from "@mui/icons-material/List";
 import Create from "@mui/icons-material/Create";
 import Profile from "@mui/icons-material/Person";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import { FC, PropsWithChildren, useState, useReducer } from "react";
+import { FC, PropsWithChildren, useState, useReducer, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { LogoutButton } from "../components/LogoutButton";
 import { getRequests, requestReducer } from "../reducers/requestReducer";
@@ -25,14 +25,20 @@ import { RequestActionsContext, RequestContext } from "../context/RequestContext
 export const Default: FC<PropsWithChildren<object>> = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "y";
 
-  const [requests, dispatch] = useReducer(requestReducer, getRequests());
+  const location = useLocation();
 
+  const [requests, dispatch] = useReducer(requestReducer, getRequests());
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  
+  useEffect(() => {
+    setIsDrawerOpen(false);
+  }, [location.pathname])
+  
   const links = [
     { to: "/", text: "Show Listings", icon: <Listings /> },
     { to: "/create", text: "Create Request", icon: <Create /> },
     { to: "/profile", text: "Show my Profile", icon: <Profile /> },
   ];
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   return !isLoggedIn ? (
     <Navigate replace to="/login" />
