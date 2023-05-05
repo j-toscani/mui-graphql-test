@@ -16,17 +16,21 @@ import Profile from "@mui/icons-material/Person";
 
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useState, useReducer } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { LogoutButton } from "../components/LogoutButton";
+import { getRequests, requestReducer } from "../reducers/requestReducer";
+import { RequestActionsContext, RequestContext } from "../context/RequestContext";
 
 export const Default: FC<PropsWithChildren<object>> = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "y";
 
+  const [requests, dispatch] = useReducer(requestReducer, getRequests());
+
   const links = [
     { to: "/listings", text: "Show Listings", icon: <Listings /> },
     { to: "/", text: "Create Request", icon: <Create /> },
-    { to: "/profile", text: "Show my Profile", icon: <Profile /> }
+    { to: "/profile", text: "Show my Profile", icon: <Profile /> },
   ];
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -45,7 +49,11 @@ export const Default: FC<PropsWithChildren<object>> = () => {
           <LogoutButton />
         </Toolbar>
       </AppBar>
-      <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} anchor="left">
+      <Drawer
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        anchor="left"
+      >
         <List>
           {links.map((link) => (
             <DrawerLink key={link.text} to={link.to} text={link.text}>
@@ -54,7 +62,11 @@ export const Default: FC<PropsWithChildren<object>> = () => {
           ))}
         </List>
       </Drawer>
-      <Outlet />
+      <RequestContext.Provider value={requests}>
+        <RequestActionsContext.Provider value={dispatch}>
+          <Outlet />
+        </RequestActionsContext.Provider>
+      </RequestContext.Provider>
     </Box>
   );
 };
