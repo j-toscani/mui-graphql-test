@@ -1,6 +1,6 @@
 import { Login } from "./pages/login";
 import { Login as LoginLayout } from "./layouts/login";
-import { Welcome } from "./pages/welcome";
+import { Create } from "./pages/create";
 import { ErrorPage } from "./pages/error";
 import { Default } from "./layouts/default";
 import { Profile } from "./pages/profile";
@@ -21,15 +21,15 @@ export const routes = [
     element: <Default />,
     children: [
       {
-        index: true,
-        element: <Welcome />,
+        index: "/create",
+        element: <Create />,
       },
       {
         path: "/profile",
         element: <Profile />,
       },
       {
-        path: "/listings",
+        index: true,
         element: <Listings />,
       },
     ],
