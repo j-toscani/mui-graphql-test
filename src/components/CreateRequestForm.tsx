@@ -1,20 +1,23 @@
 import { TextField, Box, Button } from "@mui/material";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
+import { RequestData } from "../interfaces/RequestData";
 
 export const CreateRequestForm: FC = () => {
-  const initialFormData = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    street: '',
-    city: '',
-    streetNr: '',
-    phone: '',
-    zip: '',
-    insuranceNr: '',
-  } 
+  const initialFormData: RequestData = {
+    id: crypto.randomUUID(),
+    firstname: "",
+    lastname: "",
+    email: "",
+    street: "",
+    city: "",
+    streetNr: "",
+    phone: "",
+    zip: "",
+    insuranceNr: "",
+  };
 
-  const [formData, setFormData] = useState<typeof initialFormData>(initialFormData);
+  const [formData, setFormData] =
+    useState<typeof initialFormData>(initialFormData);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
