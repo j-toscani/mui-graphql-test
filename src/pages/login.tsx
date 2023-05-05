@@ -1,4 +1,5 @@
 import { useState, FC, ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -11,34 +12,38 @@ import {
 } from "@mui/material";
 
 export const Login: FC = () => {
+  const navigate = useNavigate();
+
   const [emailErrorText, setEmailErrorText] = useState("");
   const [formData, setFormData] = useState<{ email: string; password: string }>(
     { email: "", password: "" }
   );
 
   const hasEmailError = emailErrorText.length > 0;
+  const hasPassword = formData.password.length > 0;
 
   function setPassword(e: ChangeEvent<HTMLInputElement>) {
     setFormData({ ...formData, password: e.currentTarget.value });
   }
-  
+
   function setEmail(e: ChangeEvent<HTMLInputElement>) {
     if (!e.currentTarget.value.includes("@")) {
       setEmailErrorText('Email is missing "@" sign.');
     } else {
-        setEmailErrorText('');
+      setEmailErrorText("");
     }
     setFormData({ ...formData, email: e.currentTarget.value });
   }
 
-  function logInput(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (hasEmailError) return;
-    console.log(formData);
+    if (hasEmailError || formData.email.length <= 0) return;
+    localStorage.setItem("isLoggedIn", "y");
+    navigate("/");
   }
 
   return (
-    <Card sx={{ width: "24rem", maxWidth: "100%", margin: "1rem" }}>
+    <Card sx={{ width: "24rem", maxWidth: "calc(100% - 2rem)", margin: "0 1rem" }}>
       <CardContent>
         <Stack spacing={2}>
           <Typography component="h1" variant="h5">
@@ -55,7 +60,7 @@ export const Login: FC = () => {
           </Divider>
           <Stack
             id="login"
-            onSubmit={logInput}
+            onSubmit={handleSubmit}
             component="form"
             noValidate
             autoComplete="off"
@@ -79,11 +84,11 @@ export const Login: FC = () => {
             />
           </Stack>
           <Typography variant="subtitle2">
-            Sie haben ihr Passwort vergesen?
+            Sie haben ihr Passwort vergessen?
           </Typography>
           <Box>
             <Button
-              disabled={hasEmailError}
+              disabled={hasEmailError || !hasPassword}
               variant="contained"
               type="submit"
               form="login"
