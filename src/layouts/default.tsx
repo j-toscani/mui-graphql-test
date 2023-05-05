@@ -1,42 +1,73 @@
 import {
-  BottomNavigation,
-  BottomNavigationAction,
+  AppBar,
   Box,
-  Paper,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import { FC, PropsWithChildren } from "react";
-import { Navigate, Outlet, Link } from "react-router-dom";
+import Listings from "@mui/icons-material/List";
+import Create from "@mui/icons-material/Create";
+import Profile from "@mui/icons-material/Person";
+
+import { Link } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
+import { FC, PropsWithChildren, useState } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { LogoutButton } from "../components/LogoutButton";
 
 export const Default: FC<PropsWithChildren<object>> = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "y";
 
+  const links = [
+    { to: "/listings", text: "Show Listings", icon: <Listings /> },
+    { to: "/", text: "Create Request", icon: <Create /> },
+    { to: "/profile", text: "Show my Profile", icon: <Profile /> }
+  ];
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
   return !isLoggedIn ? (
     <Navigate replace to="/login" />
   ) : (
-    <Box sx={{ backgroundColor: "#DDD", minHeight: "100%" }}>
+    <Box sx={{ minHeight: "100%" }}>
+      <AppBar position="sticky">
+        <Toolbar>
+          <IconButton onClick={() => setIsDrawerOpen(true)}>
+            <MenuIcon sx={{ color: "white" }}></MenuIcon>
+          </IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Cool App!
+          </Typography>
+          <LogoutButton />
+        </Toolbar>
+      </AppBar>
+      <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} anchor="left">
+        <List>
+          {links.map((link) => (
+            <DrawerLink key={link.text} to={link.to} text={link.text}>
+              {link.icon}
+            </DrawerLink>
+          ))}
+        </List>
+      </Drawer>
       <Outlet />
-      <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <BottomNavigation showLabels>
-          <BottomNavigationAction
-            label="Home"
-            component={Link}
-            to="/"
-          ></BottomNavigationAction>
-          <BottomNavigationAction
-            label="List"
-            component={Link}
-            to="/list"
-          ></BottomNavigationAction>
-          <BottomNavigationAction
-            label="Profile"
-            to="/profile"
-            component={Link}
-          ></BottomNavigationAction>
-        </BottomNavigation>
-      </Paper>
     </Box>
+  );
+};
+
+const DrawerLink: FC<PropsWithChildren<{ to: string; text: string }>> = ({
+  to,
+  text,
+  children,
+}) => {
+  return (
+    <ListItem component={Link} to={to}>
+      <ListItemIcon>{children}</ListItemIcon>
+      <ListItemText>{text}</ListItemText>
+    </ListItem>
   );
 };

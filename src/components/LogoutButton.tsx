@@ -1,5 +1,7 @@
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { FC } from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import { useNavigate } from "react-router-dom";
 
 export const LogoutButton: FC = () => {
@@ -10,5 +12,5 @@ export const LogoutButton: FC = () => {
     return navigate("/login");
   }
 
-  return <Button onClick={handleLogout}> Logout </Button>;
+  return <IconButton onClick={handleLogout} color="inherit"> <LogoutIcon></LogoutIcon>  </IconButton>;
 };
