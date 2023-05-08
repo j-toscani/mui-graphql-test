@@ -1,5 +1,11 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { RequestContext } from "../context/RequestContext";
 
 export const Listings: FC = () => {
-    return <div>List</div>
-}
+  const requests = useContext(RequestContext);
+  return (
+    <pre style={{textAlign: "left"}}>
+      {JSON.stringify(requests, null, 2)}
+    </pre>
+  );
+};
