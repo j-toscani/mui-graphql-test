@@ -25,7 +25,7 @@ export const requestReducer: RequestReducer = (requests, action) => {
       break;
   }
 
-  localStorage.setItem("requests", JSON.stringify(requests));
+  localStorage.setItem("requests", JSON.stringify(newRequests));
   return newRequests;
 
   function deleteRequest(id: string) {
