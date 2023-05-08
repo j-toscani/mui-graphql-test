@@ -1,34 +1,24 @@
 import { TextField, Box, Button } from "@mui/material";
-import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { RequestData } from "../interfaces/RequestData";
-import { RequestActionsContext } from "../context/RequestContext";
-import { useNavigate } from "react-router-dom";
+import { CreateRequestFormProps } from "../interfaces/CreateRequestFormProps";
+import { emptyRequestFormData } from "../constants/emptyRequestFormData";
 
-export const CreateRequestForm: FC = () => {
+export const CreateRequestForm: FC<CreateRequestFormProps> = ({
+  request = {},
+  onSubmit,
+}) => {
   const initialFormData: RequestData = {
-    id: crypto.randomUUID(),
-    firstname: "",
-    lastname: "",
-    email: "",
-    street: "",
-    city: "",
-    streetNr: "",
-    phone: "",
-    zip: "",
-    insuranceNr: "",
+    ...emptyRequestFormData,
+    ...request,
   };
 
-  const navigate = useNavigate();
-  const dispatch = useContext(RequestActionsContext);
   const [formData, setFormData] =
     useState<typeof initialFormData>(initialFormData);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!dispatch) return;
-
-    dispatch({ request: formData, type: "create", id: formData.id });
-    navigate("/");
+    onSubmit(formData);
   }
 
   function updateFormProp(key: keyof typeof initialFormData) {
@@ -46,7 +36,7 @@ export const CreateRequestForm: FC = () => {
       id="create-request"
       display="grid"
       gap="1rem"
-      p="1rem"
+      py="1rem"
       onSubmit={handleSubmit}
       sx={{ gridTemplateColumns: "repeat(6, 1fr)" }}
     >

@@ -5,6 +5,8 @@ import { ErrorPage } from "./pages/error";
 import { Default } from "./layouts/default";
 import { Profile } from "./pages/profile";
 import { Listings } from "./pages/listings";
+import { RequestDetail } from "./pages/request-detail";
+import { Edit } from "./pages/edit";
 
 export const routes = [
   {
@@ -22,8 +24,12 @@ export const routes = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/create",
+        path: "/request",
         element: <Create />,
+      },
+      {
+        path: "/request/:id",
+        element: <Edit />,
       },
       {
         path: "/profile",
@@ -32,6 +38,10 @@ export const routes = [
       {
         index: true,
         element: <Listings />,
+      },
+      {
+        path: "/:id",
+        element: <RequestDetail />,
       },
     ],
   },

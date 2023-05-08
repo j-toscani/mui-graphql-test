@@ -9,6 +9,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+a {
+  color: inherit;
+}
+
 body {
   margin: 0;
 }

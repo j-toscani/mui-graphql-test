@@ -1,5 +1,7 @@
 export interface RequestData {
   readonly id: string;
+  readonly createdAt: Date;
+  updatedAt: Date;
   firstname: string;
   lastname: string;
   email: string;

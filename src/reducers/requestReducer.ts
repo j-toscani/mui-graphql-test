@@ -32,7 +32,8 @@ export const requestReducer: RequestReducer = (requests, action) => {
     return requests.filter((request) => request.id !== id);
   }
   function updateRequest(id: string, request: RequestData) {
-    return requests.map((r) => (r.id === id ? request ?? r : r));
+    request.updatedAt = new Date();
+    return requests.map((r) => (r.id === id ? request : r));
   }
   function createRequest(request: RequestData) {
     return [...requests, request];

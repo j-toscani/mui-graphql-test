@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   Container,
   Drawer,
   IconButton,
@@ -16,7 +17,7 @@ import Listings from "@mui/icons-material/List";
 import Create from "@mui/icons-material/Create";
 import Profile from "@mui/icons-material/Person";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { FC, PropsWithChildren, useState, useReducer, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
@@ -31,6 +32,7 @@ export const Default: FC<PropsWithChildren<object>> = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "y";
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [requests, dispatch] = useReducer(requestReducer, getRequests());
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -41,20 +43,20 @@ export const Default: FC<PropsWithChildren<object>> = () => {
 
   const links = [
     { to: "/", text: "Show Listings", icon: <Listings /> },
-    { to: "/create", text: "Create Request", icon: <Create /> },
+    { to: "/request", text: "Create Request", icon: <Create /> },
     { to: "/profile", text: "Show my Profile", icon: <Profile /> },
   ];
 
   return !isLoggedIn ? (
     <Navigate replace to="/login" />
   ) : (
-    <Box sx={{ minHeight: "100%" }}>
+    <Box>
       <AppBar position="sticky">
         <Toolbar>
           <IconButton onClick={() => setIsDrawerOpen(true)}>
             <MenuIcon sx={{ color: "white" }}></MenuIcon>
           </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" textAlign="center" sx={{ flexGrow: 1 }}>
             Cool App!
           </Typography>
           <LogoutButton />
@@ -75,7 +77,12 @@ export const Default: FC<PropsWithChildren<object>> = () => {
       </Drawer>
       <RequestContext.Provider value={requests}>
         <RequestActionsContext.Provider value={dispatch}>
-          <Container>
+          <Container component="main">
+            {history.length && (
+              <Box>
+                <Button onClick={() => navigate(-1)}>Back</Button>
+              </Box>
+            )}
             <Outlet />
           </Container>
         </RequestActionsContext.Provider>
