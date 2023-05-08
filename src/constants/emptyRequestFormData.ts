@@ -12,5 +12,5 @@ export const emptyRequestFormData: RequestData = {
   streetNr: "",
   phone: "",
   zip: "",
-  insuranceNr: "",
+  insuranceNumber: "",
 };

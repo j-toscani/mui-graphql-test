@@ -29,7 +29,7 @@ export const RequestDetail: FC = () => {
       <Box>
         <Typography variant="h6">Name und Versicherungsnummer</Typography>
         <Typography>
-          {request?.firstname} {request?.lastname}; {request?.insuranceNr}
+          {request?.firstname} {request?.lastname}; {request?.insuranceNumber}
         </Typography>
       </Box>
       <Box>

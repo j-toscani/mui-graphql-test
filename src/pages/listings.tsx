@@ -24,7 +24,7 @@ export const Listings: FC = () => {
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography>{request.insuranceNr}</Typography>
+                <Typography>{request.insuranceNumber}</Typography>
               </Grid>
             </Grid>
             <Divider sx={{ marginTop: "0.25rem" }}></Divider>

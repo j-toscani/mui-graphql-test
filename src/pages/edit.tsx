@@ -21,7 +21,7 @@ export const Edit: FC = () => {
 
   return (
     <Stack spacing={2} p="1rem">
-      <Typography variant="h5">Edit request {request?.insuranceNr}!</Typography>
+      <Typography variant="h5">Edit request {request?.insuranceNumber}!</Typography>
       <Divider sx={{ marginBottom: "1rem" }}></Divider>
       <CreateRequestForm onSubmit={handleSubmit} request={request}/>
     </Stack>

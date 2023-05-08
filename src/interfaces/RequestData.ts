@@ -10,5 +10,5 @@ export interface RequestData {
   streetNr: string;
   phone: string;
   zip: string;
-  insuranceNr: string;
+  insuranceNumber: string;
 }
